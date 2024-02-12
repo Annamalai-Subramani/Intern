@@ -3,7 +3,7 @@ import re
 import nltk
 from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk.corpus import stopwords
-from words import positive_words,negative_words
+from words import positive_words,negative_words,stopword
 import pandas as pd
 
 nltk.download('punkt')
@@ -11,13 +11,16 @@ nltk.download('punkt')
 nltk.download('stopwords')
 stop_words = set(stopwords.words('english'))
 
+positive = [word for word in positive_words if word not in stopword]
+negative = [word for word in negative_words if word not in stopword]
+
 # Function to calculate positive score
 def calculate_positive_score(text):
-    return sum(1 for word in word_tokenize(text) if word.lower() in positive_words)
+    return sum(1 for word in word_tokenize(text) if word.lower() in positive)
 
 # Function to calculate negative score
 def calculate_negative_score(text):
-    return sum(1 for word in word_tokenize(text) if word.lower() in negative_words)
+    return sum(1 for word in word_tokenize(text) if word.lower() in negative)
 
 # Function to calculate polarity score
 def calculate_polarity_score(positive_score, negative_score):
